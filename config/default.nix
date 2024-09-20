@@ -11,8 +11,7 @@
     ./completion.nix
     ./telescope.nix
   ];
-  enableMan = false;
-  #enable = true;
+  enableMan = true;
   colorschemes.gruvbox.enable = true;
   globals = {
     mapleader = " ";
@@ -93,7 +92,7 @@
     encoding = "utf-8";
     mouse = "a";
     undofile = true;
-    undodir = "$XDG_CACHE_HOME/.cache/nvim/undodir";
+    undodir = "$$XDG_CACHE_HOME/.cache/nvim/undodir";
   };
 
   # To remove lualine defaults you needs to set {} in lua,
