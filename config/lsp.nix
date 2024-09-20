@@ -25,7 +25,7 @@
       };
       svelte.enable = false;
       html.enable = false;
-      tsserver.enable = false;
+      ts-ls.enable = false;
       lua-ls.enable = true;
       terraformls.enable = true;
     };

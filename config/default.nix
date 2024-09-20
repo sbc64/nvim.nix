@@ -162,8 +162,8 @@
     zen-mode.enable = true;
     twilight.enable = true;
     hardtime = {
-      maxCount = 10;
-      enable = false;
+      settings.max_count = 10;
+      enable = true;
     };
     noice = {
       enable = true;
@@ -185,58 +185,60 @@
     };
     lualine = {
       enable = true;
-      alwaysDivideMiddle = true;
-      iconsEnabled = true;
-      globalstatus = true;
-      theme = "codedark";
-      componentSeparators.left = "";
-      sections = {
-        /*
-        lualine_b = [
-          "branch"
-          "diff"
-        ];
-        lualine_c = [
-          {
-            name = "filetype";
-            extraConfig.icon_only = true;
-          }
-          {
-            name = "filename";
-            extraConfig.path = 4;
-          }
-        ];
-        /*
+      settings.options = {
+        sections = {
+          /*
+          lualine_b = [
+            "branch"
+            "diff"
+          ];
+          lualine_c = [
+            {
+              name = "filetype";
+              extraConfig.icon_only = true;
+            }
+            {
+              name = "filename";
+              extraConfig.path = 4;
+            }
+          ];
+          /*
 
-        lualine_x = lib.mkForce [
-          "diagnostics"
-          {
-            name.__raw = ''
-              function()
-                  local msg = ""
-                  local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
-                  local clients = vim.lsp.get_active_clients()
-                  if next(clients) == nil then
-                      return msg
-                  end
-                  for _, client in ipairs(clients) do
-                      local filetypes = client.config.filetypes
-                      if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-                          return client.name
-                      end
-                  end
-                  return msg
-              end
-            '';
-            icon = "";
-            color.fg = "#ffffff";
-          }
-        ];
-        lualine_y = [
-          "progress"
-          "location"
-        ];
-        */
+          lualine_x = lib.mkForce [
+            "diagnostics"
+            {
+              name.__raw = ''
+                function()
+                    local msg = ""
+                    local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+                    local clients = vim.lsp.get_active_clients()
+                    if next(clients) == nil then
+                        return msg
+                    end
+                    for _, client in ipairs(clients) do
+                        local filetypes = client.config.filetypes
+                        if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+                            return client.name
+                        end
+                    end
+                    return msg
+                end
+              '';
+              icon = "";
+              color.fg = "#ffffff";
+            }
+          ];
+          lualine_y = [
+            "progress"
+            "location"
+          ];
+          */
+        };
+        componentSeparators.left = "";
+        alwaysDivideMiddle = true;
+        iconsEnabled = true;
+        globalstatus = true;
+        theme = "codedark";
       };
     };
   };
