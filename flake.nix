@@ -17,5 +17,19 @@
         "aarch64-darwin"
       ];
       imports = [./flake-modules];
+      perSystem = {
+        system,
+        pkgs,
+        self',
+        ...
+      }: let
+        nixvim' = inputs.nixvim.legacyPackages.${system};
+        nvim = nixvim'.makeNixvimWithModule {
+          inherit pkgs;
+          module = ./config;
+        };
+      in {
+        packages.default = nvim;
+      };
     };
 }
