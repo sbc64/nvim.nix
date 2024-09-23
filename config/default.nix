@@ -92,7 +92,9 @@
     encoding = "utf-8";
     mouse = "a";
     undofile = true;
-    undodir = "$$XDG_CACHE_HOME/.cache/nvim/undodir";
+    # I can't user ${config.xdg.cacheHome} because this repo has no home config and it is a standlone package.
+    # I have to convert this nixvim into a homeManagerModule
+    #undodir = "~/.cache/nvim/undodir";
   };
 
   # To remove lualine defaults you needs to set {} in lua,
@@ -162,7 +164,10 @@
     zen-mode.enable = true;
     twilight.enable = true;
     hardtime = {
-      settings.max_count = 10;
+      settings = {
+        max_count = 10;
+        disable_mouse = false;
+      };
       enable = true;
     };
     noice = {
@@ -187,7 +192,6 @@
       enable = true;
       settings.options = {
         sections = {
-          /*
           lualine_b = [
             "branch"
             "diff"
@@ -202,7 +206,6 @@
               extraConfig.path = 4;
             }
           ];
-          /*
 
           lualine_x = lib.mkForce [
             "diagnostics"
@@ -232,7 +235,6 @@
             "progress"
             "location"
           ];
-          */
         };
         componentSeparators.left = "";
         alwaysDivideMiddle = true;
