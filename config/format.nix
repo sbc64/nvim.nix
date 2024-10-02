@@ -13,7 +13,7 @@
         svelte = ["prettier"];
         lua = ["stylua"];
         markdown = ["prettier"];
-        nix = ["alejandra"];
+        nix = ["nixpkgs-fmt"];
         python = ["isort" "black"];
         rust = ["rustfmt"];
         sh = ["shfmt"];
@@ -24,10 +24,6 @@
       formatters = {
         asmfmt = {
           command = "asmfmt";
-          stdin = true;
-        };
-        alejandra = {
-          command = "alejandra";
           stdin = true;
         };
       };
