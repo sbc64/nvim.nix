@@ -110,7 +110,6 @@
         lualine_c = [
           "branch"
           "diff"
-          "buffers"
         ];
         lualine_x = [
           "diagnostics"
@@ -137,6 +136,13 @@
           }
         ];
         lualine_y = [
+          {
+            __unkeyed-1.__raw = ''
+              'tabs',
+              path = 1,
+              mode = 1,
+            '';
+          }
           "progress"
           "location"
         ];
