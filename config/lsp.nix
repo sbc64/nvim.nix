@@ -83,7 +83,7 @@ in
           enable = true;
           cmd = [
             "nixd"
-            "--semantic-tokens = false"
+            "--semantic-tokens=0"
           ];
           filetypes = [
             "nix"

@@ -1,4 +1,5 @@
 { lib
+, config
 , ...
 }: {
   plugins = {
@@ -17,7 +18,10 @@
     trouble.enable = true;
     nvim-autopairs.enable = true;
     smart-splits.enable = true;
-    lazygit.enable = true;
+    lazygit = {
+      enable = true;
+      settings.configFilePath = "/home/sebas/.config/lazygit/config.yml";
+    };
     gitsigns = {
       enable = true;
       settings = {
