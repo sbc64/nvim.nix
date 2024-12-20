@@ -59,9 +59,7 @@ in
         yaml
       ];
     };
-    lsp-format = {
-      enable = true;
-    };
+    lsp-format.enable = true;
     lsp = {
       enable = true;
       servers = {
@@ -119,66 +117,6 @@ in
         ts-ls.enable = true;
         typos-lsp.enable = false;
         yamlls.enable = true;
-      };
-      keymaps = {
-        silent = true;
-        diagnostic = {
-          "[d" = {
-            action = "goto_prev";
-            desc = "Go to prev diagnostic";
-          };
-          "]d" = {
-            action = "goto_next";
-            desc = "Go to next diagnostic";
-          };
-          "<leader>e" = {
-            action = "open_float";
-            desc = "Show Line Diagnostics";
-          };
-        };
-
-        lspBuf = {
-          "<leader>ca" = {
-            action = "code_action";
-            desc = "Code Actions";
-          };
-          "<leader>rn" = {
-            action = "rename";
-            desc = "Rename Symbol";
-          };
-          "<leader>fm" = {
-            action = "format";
-            desc = "Format";
-          };
-          "gd" = {
-            action = "definition";
-            desc = "Goto definition (assignment)";
-          };
-          "gD" = {
-            action = "declaration";
-            desc = "Goto declaration (first occurrence)";
-          };
-          "gr" = {
-            action = "references";
-            desc = "Goto references";
-          };
-          "gy" = {
-            action = "type_definition";
-            desc = "Goto Type Definition";
-          };
-          "gi" = {
-            action = "implementation";
-            desc = "Goto Implementation";
-          };
-          "<leader>k" = {
-            action = "hover";
-            desc = "Hover";
-          };
-          "<leader>ls" = {
-            action = "signature_help";
-            desc = "Signature Help";
-          };
-        };
       };
     };
   };

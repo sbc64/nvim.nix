@@ -37,11 +37,7 @@
     };
     # https://nix-community.github.io/nixvim/plugins/barbar/settings/index.html
     barbar = {
-      enable = true;
-      keymaps = {
-        close.key = "<C-w>";
-      };
-
+      enable = false;
     };
     zen-mode.enable = true;
     zen-mode.settings = {
