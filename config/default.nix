@@ -20,8 +20,6 @@
     vim.cmd("WQ wq")
   '';
   extraConfigVim = ''
-    command! WQ wq
-    command! Wq wq
     command! W w
     command! Q q
     cabbrev wq execute "Format sync" <bar> wq
