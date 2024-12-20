@@ -6,7 +6,6 @@ in
   extraPackages = map
     (pkg: pkgs.${pkg} or (with pkgs; {
       golangcilint = golangci-lint;
-      inherit (nodePackages) jsonlint;
       inherit nixpkgs-fmt;
       inherit nixd;
     }).${pkg})
@@ -22,7 +21,6 @@ in
         go = [ "golangcilint" ];
         javascript = [ "eslint_d" ];
         javascriptreact = [ "eslint_d" ];
-        json = [ "jsonlint" ];
         markdownlint = [ "markdownlint-cli2" ];
         nix = [ "deadnix" "nix" "statix" ];
         python = [ "ruff" ];
