@@ -19,6 +19,7 @@ in
       (lib.flatten (lib.attrValues config.plugins.lint.lintersByFt));
 
   plugins = {
+    fzf-lua.enable = true; #needed by some package but it is not enabled by default
     lint = {
       enable = true;
       lintersByFt = {
@@ -35,6 +36,14 @@ in
         typescript = [ "eslint_d" ];
         typescriptreact = [ "eslint_d" ];
         yaml = [ "yamllint" ];
+      };
+      linters = {
+        yamllint = {
+          args = [
+            "--config-file"
+            "${pkgs.writeText "yamllint.config.yaml" (builtins.readFile ./yamllint.config.yaml)}"
+          ];
+        };
       };
       # Trigger linting more aggressively, not only after writing a buffer
       autoCmd.event = [ "BufWritePost" "BufEnter" "BufLeave" ];
@@ -60,6 +69,9 @@ in
       ];
     };
     lsp-format.enable = true;
+    lsp-signature = {
+      enable = true;
+    };
     lsp = {
       enable = true;
       servers = {
@@ -114,8 +126,12 @@ in
         ts_ls.enable = true;
         typos_lsp.enable = false;
         yamlls = {
+          # https://github.com/redhat-developer/yaml-language-server?tab=readme-ov-file#language-server-settings
           extraOptions = {
             format.enable = true;
+            customTags = [
+              "!reference Sequence"
+            ];
           };
           enable = true;
         };
