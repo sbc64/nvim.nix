@@ -98,21 +98,21 @@
       settings.sections = {
         lualine_b = [
           "branch"
-          "commit"
           "diff"
         ];
         lualine_c = [
-          {
-            name = "filename";
-            extraConfig.path = 3;
-          }
+          #{
+          #  __unkeyed-1.__raw = ''
+          #    'filename',
+          #    path = 3,
+          #  '';
+          #}
         ];
-
-        lualine_x = lib.mkForce [
-          { name = "diagnostics"; }
+        lualine_x = [
+          "diagnostics"
           {
-            name.__raw = ''
-              function()
+            __unkeyed-1.__raw = ''
+              name = function()
                   local msg = ""
                   local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
                   local clients = vim.lsp.get_active_clients()
@@ -126,10 +126,10 @@
                       end
                   end
                   return msg
-              end
+              end,
+              icon = "",
+              color { fg = "#ffffff", },
             '';
-            icon = "";
-            color.fg = "#ffffff";
           }
         ];
         lualine_y = [
@@ -143,6 +143,17 @@
         iconsEnabled = true;
         globalstatus = true;
         theme = "codedark";
+      };
+      settings.tabline = {
+        lualine_c = [
+          {
+            __unkeyed-1.__raw = ''
+              'tabs',
+              path = 1,
+              mode = 2,
+            '';
+          }
+        ];
       };
     };
   };

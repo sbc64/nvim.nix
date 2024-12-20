@@ -34,7 +34,7 @@ in
         sh = [ "shellcheck" ];
         typescript = [ "eslint_d" ];
         typescriptreact = [ "eslint_d" ];
-        #yaml = [ "yamllint" ];
+        yaml = [ "yamllint" ];
       };
       # Trigger linting more aggressively, not only after writing a buffer
       autoCmd.event = [ "BufWritePost" "BufEnter" "BufLeave" ];
@@ -116,7 +116,12 @@ in
         taplo.enable = true;
         ts-ls.enable = true;
         typos-lsp.enable = false;
-        yamlls.enable = true;
+        yamlls = {
+          extraOptions = {
+            format.enable = true;
+          };
+          enable = true;
+        };
       };
     };
   };
