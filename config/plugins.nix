@@ -91,22 +91,16 @@
         local current_lua_config = require('lualine').get_config()
         current_lua_config.sections = {
             ["lualine_a"] = {},
+            ["lualine_b"] = {},
             ["lualine_z"] = {},
         }
         require('lualine').setup(current_lua_config)
       '';
       settings.sections = {
-        lualine_b = [
+        lualine_c = [
           "branch"
           "diff"
-        ];
-        lualine_c = [
-          #{
-          #  __unkeyed-1.__raw = ''
-          #    'filename',
-          #    path = 3,
-          #  '';
-          #}
+          "buffers"
         ];
         lualine_x = [
           "diagnostics"
@@ -128,7 +122,7 @@
                   return msg
               end,
               icon = "",
-              color { fg = "#ffffff", },
+              color = { fg = "#ffffff", },
             '';
           }
         ];
@@ -149,7 +143,7 @@
           {
             __unkeyed-1.__raw = ''
               'tabs',
-              path = 1,
+              path = 3,
               mode = 2,
             '';
           }
