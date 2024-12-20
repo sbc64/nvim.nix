@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ config, ... }: {
   plugins = {
     luasnip = {
       enable = true;
@@ -33,17 +33,101 @@
       enable = true;
 
       settings = {
-        snippet.expand = "function(args) require('luasnip').lsp_expand(args.body) end";
-        mapping = {
-          "<C-d>" = "cmp.mapping.scroll_docs(-4)";
-          "<C-f>" = "cmp.mapping.scroll_docs(4)";
-          "<C-Space>" = "cmp.mapping.complete()";
-          "<C-e>" = "cmp.mapping.close()";
-          "<Tab>" = "cmp.mapping(cmp.mapping.select_next_item(), {'i', 's'})";
-          "<S-Tab>" = "cmp.mapping(cmp.mapping.select_prev_item(), {'i', 's'})";
-          "<CR>" = "cmp.mapping.confirm({ select = true })";
-          "<C-;>" = "cmp.mapping.complete()";
-        };
+        snippet.expand = /* lua */ ''
+          function(args)
+            require('luasnip').lsp_expand(args.body)
+          end
+        '';
+        mapping =
+          let
+            cmpWinHeight = config.opts.pumheight;
+          in
+          {
+            "<CR>" = /* lua */ ''
+              cmp.mapping(function(fallback)
+                if cmp.visible() and cmp.get_active_entry() then
+                  if luasnip.expandable() then
+                    luasnip.expand()
+                  else
+                    cmp.confirm({ select = true })
+                  end
+                else
+                  fallback()
+                end
+              end, { "i", "s" })
+            '';
+            "<C-Space>" = "cmp.mapping.complete()";
+
+            "<Tab>" = /* lua */ ''
+              cmp.mapping(function(fallback)
+                if cmp.visible() then
+                  cmp.select_next_item()
+                elseif luasnip.locally_jumpable(1) then
+                  luasnip.jump(1)
+                elseif has_words_before() then
+                  cmp.complete()
+                else
+                  fallback()
+                end
+              end, { "i", "s" })
+            '';
+            "<S-Tab>" = /* lua */ ''
+              cmp.mapping(function(fallback)
+                if cmp.visible() then
+                  cmp.select_prev_item()
+                elseif luasnip.locally_jumpable(-1) then
+                  luasnip.jump(-1)
+                else
+                  fallback()
+                end
+              end, { "i", "s" })
+            '';
+
+            "<Up>" = /* lua */ ''
+              cmp.mapping(function(fallback)
+                if cmp.visible() then
+                  cmp.select_prev_item()
+                elseif luasnip.locally_jumpable(-1) then
+                  luasnip.jump(-1)
+                else
+                  fallback()
+                end
+              end, { "i", "s" })
+            '';
+            "<Down>" = /* lua */ ''
+              cmp.mapping(function(fallback)
+                if cmp.visible() then
+                  cmp.select_next_item()
+                elseif luasnip.locally_jumpable(1) then
+                  luasnip.jump(1)
+                else
+                  fallback()
+                end
+              end, { "i", "s" })
+            '';
+            "<PageUp>" = /* lua */ ''
+              cmp.mapping(function(fallback)
+                if cmp.visible() then
+                  cmp.select_prev_item({ count = ${toString cmpWinHeight} })
+                elseif luasnip.locally_jumpable(${toString (cmpWinHeight * -1)}) then
+                  luasnip.jump(${toString (cmpWinHeight * -1)})
+                else
+                  fallback()
+                end
+              end, { "i", "s" })
+            '';
+            "<PageDown>" = /* lua */ ''
+              cmp.mapping(function(fallback)
+                if cmp.visible() then
+                  cmp.select_next_item({ count = ${toString cmpWinHeight} })
+                elseif luasnip.locally_jumpable(${toString cmpWinHeight}) then
+                  luasnip.jump(${toString cmpWinHeight})
+                else
+                  fallback()
+                end
+              end, { "i", "s" })
+            '';
+          };
 
         sources = [
           { name = "nvim_lsp"; }
