@@ -2,10 +2,12 @@
 , ...
 }: {
   plugins = {
+    web-devicons.enable = true;
     nvim-tree = {
       enable = true;
       disableNetrw = true;
       tab.sync.close = true;
+      openOnSetup = false;
       view = {
         number = true;
         relativenumber = true;
@@ -32,6 +34,14 @@
           changedelete = { text = "~"; };
         };
       };
+    };
+    # https://nix-community.github.io/nixvim/plugins/barbar/settings/index.html
+    barbar = {
+      enable = true;
+      keymaps = {
+        close.key = "<C-w>";
+      };
+
     };
     zen-mode.enable = true;
     zen-mode.settings = {

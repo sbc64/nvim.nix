@@ -66,6 +66,5 @@
         action = "<Plug>(toggle-lsp-diag)";
         options.desc = "Toggle LSP diagnostics";
       }
-    ]
-    ++ splits;
+    ];
 }

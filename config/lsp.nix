@@ -1,15 +1,22 @@
-{ config, lib, pkgs, ... }:
+{ config
+, lib
+, pkgs
+, ...
+}:
 let
   rust = pkgs.fenix.stable.completeToolchain or pkgs.rust-analyzer;
 in
 {
-  extraPackages = map
-    (pkg: pkgs.${pkg} or (with pkgs; {
-      golangcilint = golangci-lint;
-      inherit nixpkgs-fmt;
-      inherit nixd;
-    }).${pkg})
-    (lib.flatten (lib.attrValues config.plugins.lint.lintersByFt));
+  extraPackages =
+    map
+      (pkg:
+        pkgs.${pkg}
+          or (with pkgs; {
+          golangcilint = golangci-lint;
+          inherit nixpkgs-fmt;
+          inherit nixd;
+        }).${pkg})
+      (lib.flatten (lib.attrValues config.plugins.lint.lintersByFt));
 
   plugins = {
     lint = {
@@ -27,7 +34,7 @@ in
         sh = [ "shellcheck" ];
         typescript = [ "eslint_d" ];
         typescriptreact = [ "eslint_d" ];
-        yaml = [ "yamllint" ];
+        #yaml = [ "yamllint" ];
       };
       # Trigger linting more aggressively, not only after writing a buffer
       autoCmd.event = [ "BufWritePost" "BufEnter" "BufLeave" ];
@@ -51,7 +58,6 @@ in
         lua
         yaml
       ];
-
     };
     lsp-format = {
       enable = true;
@@ -74,15 +80,20 @@ in
         # does language correction even on keywords...
         #ltex.enable = true;
         marksman.enable = true;
+        lua-ls.enable = true;
         nixd = {
           enable = true;
           cmd = [
             "nixd"
-            "--semantic-tokens=false"
+            "--semantic-tokens = false"
           ];
-          filetypes = [ "nix" ];
+          filetypes = [
+            "nix"
+          ];
           settings = {
-            formatting.command = [ "nixpkgs-fmt" ];
+            formatting.command = [
+              "nixpkgs-fmt"
+            ];
             nixpkgs.expr = "import <nixpkgs> { }";
             options = {
               nixos = {
@@ -97,12 +108,6 @@ in
             };
           };
         };
-        nil-ls = {
-          enable = false;
-          settings = {
-            formatting.command = [ "nixpkgs-fmt" ];
-          };
-        };
         rust-analyzer = {
           enable = true;
           installCargo = false;
@@ -111,14 +116,10 @@ in
         };
         sqls.enable = true;
         taplo.enable = true;
-        texlab.enable = true;
-        tsserver.enable = true;
+        ts-ls.enable = true;
         typos-lsp.enable = false;
-
         yamlls.enable = true;
-        lemminx.enable = true;
       };
-
       keymaps = {
         silent = true;
         diagnostic = {
