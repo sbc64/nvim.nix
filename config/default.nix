@@ -58,11 +58,11 @@
         mode = "n";
         key = "<C-n>";
         options.silent = true;
-        action = ":call ToggleVExplorer()<CR>";
+        action = ":NvimTreeOpen<CR>";
       }
       {
         mode = "n";
-        key = "<leader>h";
+        key = "<leader>s";
         options.silent = true;
         action = ":Gitsigns preview_hunk<CR>";
       }
@@ -74,9 +74,9 @@
       }
       {
         mode = "n";
-        key = "<leader>sh";
+        key = "<leader>h";
         options.silent = true;
-        action = ":Gitsigns stage_hunk<CR>";
+        action = ":Gitsigns show HEAD<CR>";
       }
       {
         mode = "n";
@@ -105,28 +105,20 @@
     #undodir = "~/.cache/nvim/undodir";
   };
 
-/*
-  autoCmd = [
+  /*
+    autoCmd = [
     {
       event = [ "BufWritePost" "BufEnter" "BufLeave" ];
       command = "vim.lsp.buf.format()";
       pattern = ["*.nix"];
     }
-  ];
+    ];
   */
   # To remove lualine defaults you needs to set {} in lua,
   # because nixvim ignores this even with mkForce and fallsbacks
   # to the default of lualine
   # Here are the defaults:
   # https://github.com/nix-community/nixvim/blob/main/plugins/statuslines/lualine.nix#L168-L176
-  extraConfigLuaPost = ''
-    local current_lua_config = require('lualine').get_config()
-    current_lua_config.sections = {
-        ["lualine_a"] = {},
-        ["lualine_z"] = {},
-    }
-    require('lualine').setup(current_lua_config)
-  '';
   extraConfigVim = ''
     command! WQ wq
     command! Wq wq
@@ -136,26 +128,13 @@
     autocmd FileType markdown setlocal spell spelllang=en_us
     autocmd BufNewFile,BufRead *.md set filetype=markdown
     autocmd FileType markdown set conceallevel=2
-    function! ToggleVExplorer()
-      if exists("t:expl_buf_num")
-          let expl_win_num = bufwinnr(t:expl_buf_num)
-          if expl_win_num != -1
-              let cur_win_nr = winnr()
-              exec expl_win_num . 'wincmd w'
-              close
-              exec cur_win_nr . 'wincmd w'
-              unlet t:expl_buf_num
-          else
-              unlet t:expl_buf_num
-          endif
-      else
-          Vexplore
-          let t:expl_buf_num = bufnr("%")
-      endif
-    endfunction
   '';
 
   plugins = {
+    nvim-tree = {
+      enable = true;
+      disableNetrw = true;
+    };
     trouble.enable = true;
     nvim-autopairs.enable = true;
     smart-splits.enable = true;
@@ -179,6 +158,9 @@
       };
     };
     zen-mode.enable = true;
+    zen-mode.settings = {
+      plugins.twilight.enabled = false;
+    };
     twilight.enable = true;
     hardtime = {
       settings = {
@@ -214,52 +196,57 @@
     };
     lualine = {
       enable = true;
-      settings.options = {
-        sections = {
-          lualine_b = [
-            "branch"
-            "diff"
-          ];
-          lualine_c = [
-            {
-              name = "filetype";
-              extraConfig.icon_only = true;
-            }
-            {
-              name = "filename";
-              extraConfig.path = 4;
-            }
-          ];
+      luaConfig.post = ''
+        local current_lua_config = require('lualine').get_config()
+        current_lua_config.sections = {
+            ["lualine_a"] = {},
+            ["lualine_z"] = {},
+        }
+        require('lualine').setup(current_lua_config)
+      '';
+      settings.sections = {
+        lualine_b = [
+          "branch"
+          "commit"
+          "diff"
+        ];
+        lualine_c = [
+          {
+            name = "filename";
+            extraConfig.path = 4;
+          }
+        ];
 
-          lualine_x = lib.mkForce [
-            "diagnostics"
-            {
-              name.__raw = ''
-                function()
-                    local msg = ""
-                    local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
-                    local clients = vim.lsp.get_active_clients()
-                    if next(clients) == nil then
-                        return msg
-                    end
-                    for _, client in ipairs(clients) do
-                        local filetypes = client.config.filetypes
-                        if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-                            return client.name
-                        end
-                    end
-                    return msg
-                end
-              '';
-              icon = "";
-              color.fg = "#ffffff";
-            }
-          ];
-          lualine_y = [
-            "progress"
-            "location"
-          ];
-        };
+        lualine_x = lib.mkForce [
+          { name = "diagnostics"; }
+          {
+            name.__raw = ''
+              function()
+                  local msg = ""
+                  local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+                  local clients = vim.lsp.get_active_clients()
+                  if next(clients) == nil then
+                      return msg
+                  end
+                  for _, client in ipairs(clients) do
+                      local filetypes = client.config.filetypes
+                      if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+                          return client.name
+                      end
+                  end
+                  return msg
+              end
+            '';
+            icon = "";
+            color.fg = "#ffffff";
+          }
+        ];
+        lualine_y = [
+          "progress"
+          "location"
+        ];
+      };
+      settings.options = {
         componentSeparators.left = "";
         alwaysDivideMiddle = true;
         iconsEnabled = true;

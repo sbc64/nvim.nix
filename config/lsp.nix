@@ -69,7 +69,8 @@ in
         taplo.enable = true;
         texlab.enable = true;
         tsserver.enable = true;
-        typos-lsp.enable = true;
+        typos-lsp.enable = false;
+
         yamlls.enable = true;
         lemminx.enable = true;
       };
@@ -100,7 +101,7 @@ in
             action = "rename";
             desc = "Rename Symbol";
           };
-          "<leader>cf" = {
+          "<leader>fm" = {
             action = "format";
             desc = "Format";
           };
@@ -118,7 +119,7 @@ in
           };
           "gy" = {
             action = "type_definition";
-            desc = "Goto Type Defition";
+            desc = "Goto Type Definition";
           };
           "gi" = {
             action = "implementation";

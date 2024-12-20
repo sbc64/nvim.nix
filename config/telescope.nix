@@ -9,6 +9,19 @@
         hidden = {
           file_browser = true;
         };
+        cwd_to_path = true;
+        auto_depth = true;
+        collapse_dirs = false;
+      };
+    };
+    settings.mappings = {
+      i = {
+        "<C-j>" = {
+          __raw = "move_selection_next";
+        };
+        "<C-k>" = {
+          __raw = "move_selection_previous";
+        };
       };
     };
     keymaps = {
