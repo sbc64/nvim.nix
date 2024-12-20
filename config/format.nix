@@ -1,9 +1,18 @@
 {pkgs, ...}: {
+  extraPackages = with pkgs;[
+    nixpkgs-fmt
+    prettierd
+    stylua
+    rustfmt
+    prettierd
+    isort
+    black
+    go
+  ];
   plugins.conform-nvim = {
     enable = true;
     settings = {
       formatters_by_ft = {
-        asm = ["asmfmt"];
         css = ["prettierd" "prettier"];
         go = ["goimports" "gofumpt" "golines"];
         html = ["prettierd" "prettier"];
@@ -20,12 +29,6 @@
         typescript = ["prettierd" "prettier"];
         typescriptreact = ["prettier"];
         yaml = ["prettierd" "prettier"];
-      };
-      formatters = {
-        asmfmt = {
-          command = "asmfmt";
-          stdin = true;
-        };
       };
       format_on_save = {
         lsp_fallback = true;
