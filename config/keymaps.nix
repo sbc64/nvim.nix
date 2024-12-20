@@ -86,11 +86,35 @@
         "<leader><leader>l" = "swap_buf_right";
       }
     ++ [
+      # Use tab as buffer switcher in normal mode
+      {
+        mode = "n";
+        key = "<Tab>";
+        action = ":bnext<CR>";
+      }
+      {
+        mode = "n";
+        key = "<S-Tab>";
+        action = ":bprevious<CR>";
+      }
+
+      # Delete search highlight with backspace
+      {
+        mode = "n";
+        key = "<BS>";
+        action = ":nohlsearch<CR>";
+      }
       {
         mode = "n";
         key = "tn";
         options.silent = true;
         action = ":tabnew %<CR>";
+      }
+      {
+        mode = "n";
+        key = "tc";
+        options.silent = true;
+        action = ":tabclose<CR>";
       }
       {
         mode = "n";
@@ -126,9 +150,11 @@
         mode = "n";
         key = "<leader>ld";
         action = ":lua vim.diagnostic.enable(not vim.diagnostic.is_enabled())<CR>";
-        options.desc = "Toggle LSP diagnostics";
-        options.silent = true;
-        options.noremap = true;
+        options = {
+          desc = "Toggle LSP diagnostics";
+          silent = true;
+          noremap = true;
+        };
       }
     ];
 }
