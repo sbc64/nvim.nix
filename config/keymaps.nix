@@ -88,6 +88,12 @@
     ++ [
       {
         mode = "n";
+        key = "tn";
+        options.silent = true;
+        action = ":tabnew %<CR>";
+      }
+      {
+        mode = "n";
         key = "<leader>lg";
         options.silent = true;
         action = ":LazyGit<CR>";
