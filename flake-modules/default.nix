@@ -1,4 +1,4 @@
-{inputs, ...}: {
+{ inputs, ... }: {
   imports = [
     #./dev
     #./lib.nix
@@ -10,7 +10,7 @@
     ./wrappers.nix
   ];
 
-  perSystem = {system, ...}: {
+  perSystem = { system, ... }: {
     _module.args = {
       pkgsUnfree = import inputs.nixpkgs {
         inherit system;

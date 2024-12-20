@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{ pkgs, ... }: {
   plugins = {
     luasnip = {
       enable = true;
@@ -46,10 +46,10 @@
         };
 
         sources = [
-          {name = "cmp_tabby";}
-          {name = "path";}
-          {name = "nvim_lsp";}
-          {name = "luasnip";}
+          { name = "cmp_tabby"; }
+          { name = "path"; }
+          { name = "nvim_lsp"; }
+          { name = "luasnip"; }
           {
             name = "buffer";
             # Words from other open buffers can also be suggested.

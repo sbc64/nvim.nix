@@ -1,17 +1,16 @@
-{
-  inputs,
-  self,
-  ...
+{ inputs
+, self
+, ...
 }: {
-  perSystem = {
-    system,
-    pkgs,
-    ...
-  }: {
-    _module.args = {
-      makeNixvimWithModule = import ../wrappers/standalone.nix pkgs self;
+  perSystem =
+    { system
+    , pkgs
+    , ...
+    }: {
+      _module.args = {
+        makeNixvimWithModule = import ../wrappers/standalone.nix pkgs self;
+      };
     };
-  };
 
   flake = {
     homeManagerModules = {
@@ -19,14 +18,14 @@
       default = self.homeManagerModules.nixvim;
     };
     /*
-    nixosModules = {
+      nixosModules = {
       nixvim = import ../wrappers/nixos.nix self;
       default = self.nixosModules.nixvim;
-    };
-    nixDarwinModules = {
+      };
+      nixDarwinModules = {
       nixvim = import ../wrappers/darwin.nix self;
       default = self.nixDarwinModules.nixvim;
-    };
+      };
     */
   };
 }
