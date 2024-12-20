@@ -66,19 +66,16 @@ in
         ansiblels.enable = true;
         bashls.enable = true;
         cssls.enable = true;
-        docker-compose-language-service.enable = false;
+        docker_compose_language_service.enable = false;
         dockerls.enable = true;
         eslint.enable = true;
         html.enable = true;
-        java-language-server = {
+        java_language_server = {
           enable = false;
-          #rootDir.__raw = "nvim_lsp.util.root_pattern('.git');";
         };
         jsonls.enable = true;
-        # does language correction even on keywords...
-        #ltex.enable = true;
         marksman.enable = true;
-        lua-ls.enable = true;
+        lua_ls.enable = true;
         nixd = {
           enable = true;
           cmd = [
@@ -106,7 +103,7 @@ in
             };
           };
         };
-        rust-analyzer = {
+        rust_analyzer = {
           enable = true;
           installCargo = false;
           installRustc = false;
@@ -114,8 +111,8 @@ in
         };
         sqls.enable = true;
         taplo.enable = true;
-        ts-ls.enable = true;
-        typos-lsp.enable = false;
+        ts_ls.enable = true;
+        typos_lsp.enable = false;
         yamlls = {
           extraOptions = {
             format.enable = true;

@@ -57,26 +57,28 @@
     };
     noice = {
       enable = true;
-      messages.enabled = true; # Needed to hide the cmdline
-      notify.enabled = true; # Needed to hide the cmdline
-      health.checker = false;
-      presets = {
-        bottom_search = false;
-        command_palette = false;
-        inc_rename = false;
-        long_message_to_split = true;
-        lsp_doc_border = true;
-      };
-      cmdline = {
-        enabled = true;
-        # https://github.com/folke/noice.nvim/wiki/Configuration-Recipes
-        view = "cmdline";
-        format = {
-          cmdline = {
-            pattern = "^:";
-            icon = "";
-            lang = "vim";
+      settings = {
+        messages.enabled = true; # Needed to hide the cmdline
+        notify.enabled = true; # Needed to hide the cmdline
+        health.checker = false;
+        cmdline = {
+          enabled = true;
+          # https://github.com/folke/noice.nvim/wiki/Configuration-Recipes
+          view = "cmdline";
+          format = {
+            cmdline = {
+              pattern = "^:";
+              icon = "";
+              lang = "vim";
+            };
           };
+        };
+        presets = {
+          bottom_search = false;
+          command_palette = false;
+          inc_rename = false;
+          long_message_to_split = true;
+          lsp_doc_border = true;
         };
       };
     };
