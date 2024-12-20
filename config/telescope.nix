@@ -3,7 +3,7 @@
     enable = true;
     extensions = {
       fzf-native.enable = true;
-      file-browser.enable = true;
+      file-browser.enable = false;
       file-browser.settings = {
         hijack_netrw = true;
         hidden = {
