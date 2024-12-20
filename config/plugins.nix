@@ -39,10 +39,6 @@
         };
       };
     };
-    # https://nix-community.github.io/nixvim/plugins/barbar/settings/index.html
-    barbar = {
-      enable = false;
-    };
     zen-mode.enable = true;
     zen-mode.settings = {
       plugins.twilight.enabled = false;
@@ -50,10 +46,15 @@
     twilight.enable = true;
     hardtime = {
       settings = {
-        max_count = 10;
+        max_count = 15;
         disable_mouse = false;
       };
       enable = true;
+    };
+    schemastore = {
+      enable = true;
+      json.enable = true;
+      yaml.enable = true;
     };
     noice = {
       enable = true;
@@ -82,6 +83,13 @@
         };
       };
     };
+
+    bufferline = {
+      enable = true;
+      numbers = "ordinal";
+    };
+    rainbow-delimiters.enable = true;
+    lastplace.enable = true;
     lualine = {
       enable = true;
       # To remove lualine defaults you needs to set {} in lua,
@@ -139,17 +147,6 @@
         iconsEnabled = true;
         globalstatus = true;
         theme = "codedark";
-      };
-      settings.tabline = {
-        lualine_c = [
-          {
-            __unkeyed-1.__raw = ''
-              'tabs',
-              path = 3,
-              mode = 2,
-            '';
-          }
-        ];
       };
     };
   };
