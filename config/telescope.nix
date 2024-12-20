@@ -3,12 +3,24 @@
     enable = true;
     extensions = {
       fzf-native.enable = true;
-      live-grep-args = {
-        enable = true;
-        settings.additional_args = [
-          "--hidden"
-        ];
-      };
+    };
+    settings.pickers = {
+      live_grep.__raw = /* lua */ ''
+        {
+          additional_args = function(opts)
+            return {"--hidden"}
+          end
+        }
+      '';
+      /*
+      find_files.__raw =  ''
+        { 
+          find_files = {
+            find_command = { 'rg', '--files', '--iglob', '!.git', '--hidden' },
+          },
+        }
+      '';
+      */
     };
     settings.mappings = {
       i = {

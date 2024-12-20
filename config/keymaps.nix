@@ -99,11 +99,9 @@
       }
       {
         mode = "n";
-        key = "<leader>cc";
-        action = ":bd<CR>";
+        key = "<leader>dd";
+        action = ":Bwipeout<CR>";
       }
-
-      # Delete search highlight with backspace
       {
         mode = "n";
         key = "<BS>";
@@ -135,19 +133,19 @@
       }
       {
         mode = "n";
-        key = "<leader>s";
+        key = "<leader>p";
         options.silent = true;
-        action = ":Gitsigns preview_hunk<CR>";
+        action = ":Gitsigns preview_hunk_inline<CR>";
       }
       {
         mode = "n";
-        key = "<leader>nh";
+        key = "<leader>sh";
         options.silent = true;
-        action = ":Gitsigns next_hunk<CR>";
+        action = ":Gitsigns stage_hunk<CR>";
       }
       {
         mode = "n";
-        key = "<leader>h";
+        key = "<leader>hh";
         options.silent = true;
         action = ":Gitsigns show HEAD<CR>";
       }
