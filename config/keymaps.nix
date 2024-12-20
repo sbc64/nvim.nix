@@ -97,6 +97,11 @@
         key = "<S-Tab>";
         action = ":bprevious<CR>";
       }
+      {
+        mode = "n";
+        key = "<leader>cc";
+        action = ":bd<CR>";
+      }
 
       # Delete search highlight with backspace
       {

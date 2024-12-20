@@ -1,11 +1,35 @@
 { config, ... }: {
   extraConfigLuaPre = /* lua */ ''
     local luasnip = require('luasnip')
+    local has_space_before = function()
+      local unpack = unpack or table.unpack
+      local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+      if col == 0 then
+        return false
+      end
+
+      local current_line = vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]
+      local char_before_cursor = current_line:sub(col, col)
+
+      return char_before_cursor == ' '
+    end
+
     local has_words_before = function()
       unpack = unpack or table.unpack
       local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-      return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match(".%s") == nil
+      return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
     end
+
+    local feedkey = function(key, mode)
+      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+    end
+    -- Needed by lint in default.nix
+    local pattern = 'stdin:(%d+):(%d+): %[(.+)%] (.+) %((.+)%)'
+    local groups = { 'lnum', 'col', 'severity', 'message', 'code' }
+    local severities = {
+      ['error'] = vim.diagnostic.severity.ERROR,
+      ['warning'] = vim.diagnostic.severity.WARN,
+    }
   '';
   plugins = {
     luasnip = {
@@ -39,7 +63,6 @@
 
     cmp = {
       enable = true;
-
       settings = {
         snippet.expand = /* lua */ ''
           function(args)
@@ -66,7 +89,6 @@
               end, { "i", "s" })
             '';
             "<C-Space>" = "cmp.mapping.complete()";
-
             "<Tab>" = /* lua */ ''
               cmp.mapping(function(fallback)
                 if cmp.visible() then
@@ -141,8 +163,8 @@
         sources = [
           { name = "nvim_lsp"; }
           { name = "cmp_tabby"; }
-          { name = "path"; }
           { name = "luasnip"; }
+          { name = "path"; }
           {
             name = "buffer";
             # Words from other open buffers can also be suggested.

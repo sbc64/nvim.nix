@@ -37,15 +37,29 @@ in
         typescriptreact = [ "eslint_d" ];
         yaml = [ "yamllint" ];
       };
-      linters.yamllint.args = [
-        "--config-file ${pkgs.writeText "yamllint-config.yaml" /* yaml */ ''
+      # https://github.com/mfussenegger/nvim-lint/blob/master/lua/lint/linters/yamllint.lua
+      linters.yamllint = {
+        cmd = "${pkgs.yamllint}/bin/yamllint";
+        stdin = true;
+        stream = "stdout";
+        args = [
+          "--config-file"
+          "${pkgs.writeText "yamllint-config.yaml" /* yaml */ ''
+          extends: default
           rules:
             document-start:
               present: false
             line-length:
               max: 80
         ''}"
-      ];
+          "parsable"
+          "-"
+        ];
+        ignore_exitcode = true;
+        parser = ''require('lint.parser').from_pattern(pattern, groups, severities, {
+          ['source'] = 'yamllint',
+        })'';
+      };
       # Trigger linting more aggressively, not only after writing a buffer
       autoCmd.event = [ "BufWritePost" "BufEnter" "BufLeave" ];
     };
@@ -124,7 +138,7 @@ in
         typos_lsp.enable = false;
         yamlls = {
           # https://github.com/redhat-developer/yaml-language-server?tab=readme-ov-file#language-server-settings
-          extraOptions = {
+          settings = {
             format.enable = true;
             customTags = [
               "!reference Sequence"
