@@ -37,14 +37,15 @@ in
         typescriptreact = [ "eslint_d" ];
         yaml = [ "yamllint" ];
       };
-      linters = {
-        yamllint = {
-          args = [
-            "--config-file"
-            "${pkgs.writeText "yamllint.config.yaml" (builtins.readFile ./yamllint.config.yaml)}"
-          ];
-        };
-      };
+      linters.yamllint.args = [
+        "--config-file ${pkgs.writeText "yamllint-config.yaml" /* yaml */ ''
+          rules:
+            document-start:
+              present: false
+            line-length:
+              max: 80
+        ''}"
+      ];
       # Trigger linting more aggressively, not only after writing a buffer
       autoCmd.event = [ "BufWritePost" "BufEnter" "BufLeave" ];
     };
@@ -82,9 +83,6 @@ in
         dockerls.enable = true;
         eslint.enable = true;
         html.enable = true;
-        java_language_server = {
-          enable = false;
-        };
         jsonls.enable = true;
         marksman.enable = true;
         lua_ls.enable = true;
@@ -122,7 +120,6 @@ in
           package = rust;
         };
         sqls.enable = true;
-        taplo.enable = true;
         ts_ls.enable = true;
         typos_lsp.enable = false;
         yamlls = {

@@ -14,7 +14,7 @@
     mapleader = " ";
     netrw_banner = 0;
   };
-
+  luaLoader.enable = true;
   performance.byteCompileLua = {
     enable = false;
     nvimRuntime = false;
@@ -35,6 +35,7 @@
     updatetime = 100;
     number = true;
     relativenumber = true;
+    pumheight = 15;
     shiftwidth = 2;
     softtabstop = 2;
     tabstop = 2;
