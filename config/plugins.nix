@@ -87,7 +87,7 @@
 
     bufferline = {
       enable = true;
-      numbers = "ordinal";
+      settings.options.numbers = "ordinal";
     };
     rainbow-delimiters.enable = true;
     lastplace.enable = true;
