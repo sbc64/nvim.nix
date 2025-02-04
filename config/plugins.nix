@@ -43,6 +43,10 @@
     zen-mode.enable = true;
     zen-mode.settings = {
       plugins.twilight.enabled = false;
+      window = {
+        backdrop = 0.7;
+        width = 0.7;
+      };
     };
     twilight.enable = true;
     hardtime = {

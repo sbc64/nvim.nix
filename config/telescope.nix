@@ -8,7 +8,7 @@
       live_grep.__raw = /* lua */ ''
         {
           additional_args = function(opts)
-            return {"--hidden"}
+            return {"--hidden", "-g", "!.git/**", "-g", "!flake.lock"}
           end
         }
       '';
