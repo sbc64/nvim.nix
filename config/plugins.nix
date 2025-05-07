@@ -3,7 +3,9 @@
 , ...
 }: {
   plugins = {
-    vim-bbye.enable = true;
+    wakatime.enable = true;
+    firenvim.enable = false;
+    vim-bbye.enable = false;
     web-devicons.enable = true;
     nvim-tree = {
       enable = true;
@@ -11,9 +13,22 @@
       tab.sync.close = true;
       openOnSetup = false;
       view = {
-        number = true;
-        relativenumber = true;
-        width = 40;
+        float = {
+          enable = true;
+          openWinConfig.__raw = /** lua **/ ''
+            {
+              relative = "editor",
+              width = 80,
+              height = 40,
+              col = (vim.api.nvim_list_uis()[1].width - 80) * 0.5,
+              row = (vim.api.nvim_list_uis()[1].height - 40) * 0.4,
+              }
+          '';
+        };
+
+        number = false;
+        relativenumber = false;
+        signcolumn = "no";
       };
     };
     trouble.enable = true;
@@ -23,10 +38,11 @@
       enable = true;
       settings.configFilePath = "/home/sebas/.config/lazygit/config.yml";
     };
+    fugitive = { enable = false; };
     gitsigns = {
       enable = true;
       settings = {
-        current_line_blame = true;
+        current_line_blame = false;
         current_line_blame_opts = {
           virt_text = true;
           virt_text_pos = "eol";
@@ -54,7 +70,7 @@
         max_count = 15;
         disable_mouse = false;
       };
-      enable = true;
+      enable = false;
     };
     schemastore = {
       enable = true;

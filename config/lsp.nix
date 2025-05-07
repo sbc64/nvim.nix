@@ -39,6 +39,7 @@ in
       };
       # https://github.com/mfussenegger/nvim-lint/blob/master/lua/lint/linters/yamllint.lua
       linters.yamllint = {
+        enable = false;
         cmd = "${pkgs.yamllint}/bin/yamllint";
         stdin = true;
         stream = "stdout";
@@ -97,9 +98,12 @@ in
         dockerls.enable = true;
         eslint.enable = true;
         html.enable = true;
-        jsonls.enable = true;
+        jsonls = {
+          enable = true;
+        };
         marksman.enable = true;
         lua_ls.enable = true;
+        ccls.enable = true;
         nixd = {
           enable = true;
           cmd = [
@@ -139,12 +143,12 @@ in
         yamlls = {
           # https://github.com/redhat-developer/yaml-language-server?tab=readme-ov-file#language-server-settings
           settings = {
-            format.enable = true;
+            format.enable = false;
             customTags = [
               "!reference Sequence"
             ];
           };
-          enable = true;
+          enable = true; #causes flickering
         };
       };
     };

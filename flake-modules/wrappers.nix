@@ -17,15 +17,14 @@
       nixvim = import ../wrappers/hm.nix self;
       default = self.homeManagerModules.nixvim;
     };
-    /*
-      nixosModules = {
+    nixosModules = {
       nixvim = import ../wrappers/nixos.nix self;
       default = self.nixosModules.nixvim;
-      };
-      nixDarwinModules = {
+    };
+
+    nixDarwinModules = {
       nixvim = import ../wrappers/darwin.nix self;
       default = self.nixDarwinModules.nixvim;
-      };
-    */
+    };
   };
 }
