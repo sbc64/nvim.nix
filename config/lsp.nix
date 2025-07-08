@@ -1,25 +1,17 @@
-{ config
-, lib
-, pkgs
-, ...
-}:
-let
-  rust = pkgs.fenix.stable.completeToolchain or pkgs.rust-analyzer;
-in
-{
-  extraPackages =
-    map
-      (pkg:
-        pkgs.${pkg}
-          or (with pkgs; {
-          golangcilint = golangci-lint;
-          inherit nixpkgs-fmt;
-          inherit nixd;
-        }).${pkg})
-      (lib.flatten (lib.attrValues config.plugins.lint.lintersByFt));
+{ config, lib, pkgs, ... }:
+let rust = pkgs.fenix.stable.completeToolchain or pkgs.rust-analyzer;
+in {
+  extraPackages = map (pkg:
+    pkgs.${pkg} or (with pkgs; {
+      golangcilint = golangci-lint;
+      #inherit nixfmt;
+      inherit nixpkgs-fmt;
+      inherit nixd;
+    }).${pkg}) (lib.flatten (lib.attrValues config.plugins.lint.lintersByFt));
 
   plugins = {
-    fzf-lua.enable = true; #needed by some package but it is not enabled by default
+    fzf-lua.enable =
+      true; # needed by some package but it is not enabled by default
     lint = {
       enable = true;
       lintersByFt = {
@@ -45,32 +37,30 @@ in
         stream = "stdout";
         args = [
           "--config-file"
-          "${pkgs.writeText "yamllint-config.yaml" /* yaml */ ''
-          extends: default
-          rules:
-            document-start:
-              present: false
-            line-length:
-              max: 80
-        ''}"
+          "${pkgs.writeText "yamllint-config.yaml" # yaml
+          ''
+            extends: default
+            rules:
+              document-start:
+                present: false
+              line-length:
+                max: 80
+          ''}"
           "parsable"
           "-"
         ];
         ignore_exitcode = true;
-        parser = ''require('lint.parser').from_pattern(pattern, groups, severities, {
-          ['source'] = 'yamllint',
-        })'';
+        parser = ''
+          require('lint.parser').from_pattern(pattern, groups, severities, {
+                    ['source'] = 'yamllint',
+                  })'';
       };
       # Trigger linting more aggressively, not only after writing a buffer
       autoCmd.event = [ "BufWritePost" "BufEnter" "BufLeave" ];
     };
     treesitter = {
       enable = true;
-      settings = {
-        highlight = {
-          enable = true;
-        };
-      };
+      settings = { highlight = { enable = true; }; };
 
       grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
         bash
@@ -85,9 +75,7 @@ in
       ];
     };
     lsp-format.enable = true;
-    lsp-signature = {
-      enable = true;
-    };
+    lsp-signature = { enable = true; };
     lsp = {
       enable = true;
       servers = {
@@ -98,35 +86,32 @@ in
         dockerls.enable = true;
         eslint.enable = true;
         html.enable = true;
-        jsonls = {
-          enable = true;
-        };
+        jsonls = { enable = true; };
         marksman.enable = true;
         lua_ls.enable = true;
         ccls.enable = true;
         nixd = {
           enable = true;
-          cmd = [
-            "nixd"
-            "--semantic-tokens=0"
-          ];
-          filetypes = [
-            "nix"
-          ];
+          cmd = [ "nixd" "--semantic-tokens=0" ];
+          filetypes = [ "nix" ];
           settings = {
             formatting.command = [
               "nixpkgs-fmt"
+              #"nixfmt"
             ];
             nixpkgs.expr = "import <nixpkgs> { }";
             options = {
               nixos = {
-                expr = ''builtins.getFlake ("git+file://" + toString ./.).nixosConfigurations.australis.options'';
+                expr = ''
+                  builtins.getFlake ("git+file://" + toString ./.).nixosConfigurations.australis.options'';
               };
               home-manager = {
-                expr = ''builtins.getFlake ("git+file://" + toString ./.).homeConfigurations.australis.options'';
+                expr = ''
+                  builtins.getFlake ("git+file://" + toString ./.).homeConfigurations.australis.options'';
               };
               common = {
-                expr = ''builtins.getFlake ("git+file://" + toString /home/sebas/repos/common)'';
+                expr = ''
+                  builtins.getFlake ("git+file://" + toString /home/sebas/repos/common)'';
               };
             };
           };
@@ -144,11 +129,9 @@ in
           # https://github.com/redhat-developer/yaml-language-server?tab=readme-ov-file#language-server-settings
           settings = {
             format.enable = false;
-            customTags = [
-              "!reference Sequence"
-            ];
+            customTags = [ "!reference Sequence" ];
           };
-          enable = true; #causes flickering
+          enable = true; # causes flickering
         };
       };
     };
