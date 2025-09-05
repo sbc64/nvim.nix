@@ -26,11 +26,17 @@
           nixvim' = inputs.nixvim.legacyPackages.${system};
           nvim = nixvim'.makeNixvimWithModule {
             inherit pkgs;
-            module = ./config;
+            module = import ./config { };
+          };
+          nvimLight = nixvim'.makeNixvimWithModule {
+            inherit pkgs;
+            module = import ./config { darkMode = false; };
           };
         in
         {
           packages.default = nvim;
+          packages.dark = nvim;
+          packages.light = nvimLight;
         };
     };
 }

@@ -35,7 +35,7 @@
     keymaps = {
       "<leader>fg" = "live_grep";
       "<leader>ff" = "find_files";
-      "<leader>gs" = {
+      "<leader>gt" = {
         action = "git_status";
         options.desc = "Status";
       };

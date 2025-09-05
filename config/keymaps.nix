@@ -78,7 +78,7 @@
         "<C-j>" = "move_cursor_down";
         "<C-k>" = "move_cursor_up";
         "<C-l>" = "move_cursor_right";
-        "<C-\\>" = "move_cursor_previous";
+        #"<C-\\>" = "move_cursor_previous";
         #  swapping buffers between windows
         "<leader><leader>h" = "swap_buf_left";
         "<leader><leader>j" = "swap_buf_down";
@@ -99,11 +99,6 @@
       }
       {
         mode = "n";
-        key = "<leader>dd";
-        action = ":Bwipeout<CR>";
-      }
-      {
-        mode = "n";
         key = "<BS>";
         action = ":nohlsearch<CR>";
       }
@@ -118,12 +113,6 @@
         key = "tc";
         options.silent = true;
         action = ":tabclose<CR>";
-      }
-      {
-        mode = "n";
-        key = "<leader>lg";
-        options.silent = true;
-        action = ":LazyGit<CR>";
       }
       {
         mode = "n";
@@ -142,6 +131,12 @@
         key = "<leader>sh";
         options.silent = true;
         action = ":Gitsigns stage_hunk<CR>";
+      }
+      {
+        mode = "n";
+        key = "<leader>dd";
+        options.silent = true;
+        action = ":bp\|bd #<CR>";
       }
       {
         mode = "n";

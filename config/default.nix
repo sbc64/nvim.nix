@@ -1,4 +1,4 @@
-{ ... }: {
+{ darkMode ? true, ... }: {
   # TODO get inspiration from here: git@github.com:pete3n/nixvim-flake.git
   # for a more complete dev environment
   imports = [
@@ -9,7 +9,15 @@
     ./telescope.nix
   ];
   enableMan = true;
-  colorschemes.gruvbox.enable = true;
+  colorschemes = {
+    gruvbox.enable = darkMode;
+    catppuccin.enable = !darkMode;
+    catppuccin.settings = {
+      flavour = "latte";
+      term_colors = true;
+      background.light = "latte";
+    };
+  };
   globals = {
     mapleader = " ";
     netrw_banner = 0;
@@ -31,7 +39,17 @@
     autocmd FileType markdown setlocal spell spelllang=en_us
     autocmd BufNewFile,BufRead *.md set filetype=markdown
   '';
+  extraConfigLuaPost = ''
+    if vim.g.neovide then
+      vim.g.neovide_cursor_animation_length = 0
+      vim.g.neovide_scroll_animation_length = 0
+      vim.g.neovide_position_animation_length = 0
+      vim.g.neovide_cursor_vfx_mode = ""
+      vim.api.nvim_set_current_dir("/home/sebas/r")
+    end
+  '';
   opts = {
+    hidden = true;
     updatetime = 100;
     number = true;
     relativenumber = true;
@@ -41,10 +59,10 @@
     tabstop = 2;
     expandtab = true;
     ff = "unix";
-    guifont = "Fira Code:h11";
+    guifont = "MesloLGMDZ Nerd Font Propo:h12";
     encoding = "utf-8";
     mouse = "a";
-    undofile = true;
+    undofile = true; # ~/.local/state/nvim/undo
     # I can't user ${config.xdg.cacheHome} because this repo has no home config and it is a standlone package.
     # I have to convert this nixvim into a homeManagerModule
     #undodir = "~/.cache/nvim/undodir";
