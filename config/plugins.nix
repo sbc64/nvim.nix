@@ -1,8 +1,21 @@
 { lib
 , config
 , ...
-}: {
+}:
+let
+  copilot = false;
+in
+{
   plugins = {
+    copilot-chat = {
+      enable = copilot;
+    };
+    copilot-lua = {
+      enable = copilot;
+    };
+    copilot-cmp = {
+      enable = copilot;
+    };
     wakatime.enable = false;
     firenvim.enable = false;
     vim-bbye.enable = false;

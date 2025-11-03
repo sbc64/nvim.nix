@@ -1,13 +1,15 @@
 { config, lib, pkgs, ... }:
 let rust = pkgs.fenix.stable.completeToolchain or pkgs.rust-analyzer;
 in {
-  extraPackages = map (pkg:
-    pkgs.${pkg} or (with pkgs; {
-      golangcilint = golangci-lint;
-      #inherit nixfmt;
-      inherit nixpkgs-fmt;
-      inherit nixd;
-    }).${pkg}) (lib.flatten (lib.attrValues config.plugins.lint.lintersByFt));
+  extraPackages = map
+    (pkg:
+      pkgs.${pkg} or (with pkgs; {
+        golangcilint = golangci-lint;
+        inherit nixfmt;
+        #inherit nixpkgs-fmt;
+        inherit nixd;
+      }).${pkg})
+    (lib.flatten (lib.attrValues config.plugins.lint.lintersByFt));
 
   plugins = {
     fzf-lua.enable =
@@ -79,7 +81,10 @@ in {
     lsp = {
       enable = true;
       servers = {
-        ansiblels.enable = true;
+        ansiblels = {
+          enable = false;
+          #package = pkgs.ansible-language-server;
+        };
         bashls.enable = true;
         cssls.enable = true;
         docker_compose_language_service.enable = false;
@@ -96,7 +101,7 @@ in {
           filetypes = [ "nix" ];
           settings = {
             formatting.command = [
-              "nixpkgs-fmt"
+              "nixfmt"
               #"nixfmt"
             ];
             nixpkgs.expr = "import <nixpkgs> { }";
